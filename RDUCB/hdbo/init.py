@@ -53,6 +53,14 @@ fcnet_benchmark_list = Config().list_fcnet()
 
 # Must return a 
 def args_parse():
+    """    Parse the arguments and process them into a dictionary.
+
+    This function parses the input arguments using argparse and processes them into a dictionary for further use.
+
+    Returns:
+        dict: A dictionary containing the processed input arguments.
+    """
+
 
     args_dict = yaml.load(open(sys.argv[1]), yaml.SafeLoader)
     args_dict["hash_exe"] = hashlib.sha1(json.dumps(args_dict, sort_keys=True).encode()).hexdigest()
