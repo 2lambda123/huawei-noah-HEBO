@@ -21,7 +21,7 @@ from DRiLLS.baseline.greedy.utils import run_thread
 data_file = sys.argv[1]
 
 with open(data_file, 'r') as f:
-    options = yaml.load(f)
+    options = yaml.load(f, Loader=yaml.SafeLoader)
 
 start = timeit.default_timer()
 

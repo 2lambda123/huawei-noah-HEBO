@@ -192,7 +192,7 @@ class BenchmarkEnvironment(NoiseObsMixin, ConstraintsMixin, Environment):
             env_config_path = os.path.join(self._path, 'environment.yaml')
             if self._path and os.path.exists(env_config_path):
                 with open(env_config_path, 'r') as f:
-                    data = yaml.load(f)
+                    data = yaml.load(f, Loader=yaml.SafeLoader)
                     self._seed = data['seed']
                     logger.info("Using random seed from environment.yaml.")
         else:

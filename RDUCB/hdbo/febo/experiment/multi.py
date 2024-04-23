@@ -108,7 +108,7 @@ class ExperimentPart:
 
     def load(self):
         with open(os.path.join(self.path, 'benchmark.yaml'), 'r') as f:
-            self._config = yaml.load(f)
+            self._config = yaml.load(f, Loader=yaml.SafeLoader)
         self._label = self._label_fun(self.id, self.config)
 
 
