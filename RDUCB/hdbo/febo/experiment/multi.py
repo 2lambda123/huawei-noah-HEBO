@@ -107,6 +107,15 @@ class ExperimentPart:
             yaml.dump(self._config, f)
 
     def load(self):
+        """        Load the benchmark configuration from a YAML file.
+
+        This method reads the benchmark configuration from a YAML file and assigns it to the _config attribute. It also calls the _label_fun method to assign a label to the benchmark.
+
+
+        Raises:
+            FileNotFoundError: If the benchmark.yaml file is not found.
+        """
+
         with open(os.path.join(self.path, 'benchmark.yaml'), 'r') as f:
             self._config = yaml.load(f, Loader=yaml.SafeLoader)
         self._label = self._label_fun(self.id, self.config)
