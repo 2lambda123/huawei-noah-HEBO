@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import matplotlib
+import yaml
+
 matplotlib.use('Agg')
 # =============
 
@@ -52,7 +54,7 @@ fcnet_benchmark_list = Config().list_fcnet()
 # Must return a 
 def args_parse():
 
-    args_dict = yaml.load(open(sys.argv[1]), yaml.FullLoader)
+    args_dict = yaml.load(open(sys.argv[1]), yaml.SafeLoader)
     args_dict["hash_exe"] = hashlib.sha1(json.dumps(args_dict, sort_keys=True).encode()).hexdigest()
 
     print(args_dict)
