@@ -129,7 +129,7 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         # Download the zip file
         print(f'Downloading precomputed {antigen} structure ... {fixed_download_link}.zip in {os.getcwd()}')
 
-        r = requests.get(fixed_download_link + '.zip', stream=True)
+        r = requests.get(fixed_download_link + '.zip', stream=True, timeout=60)
         assert r.ok, 'Download unsuccessful...'
         z = zipfile.ZipFile(BytesIO(r.content))
         z.extractall()

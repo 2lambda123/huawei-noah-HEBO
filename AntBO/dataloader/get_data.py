@@ -45,7 +45,7 @@ def download_data(antigen, out_path, antibody='Murine'):
     if not os.path.exists(file_):
         file_url = f"{url}.zip"
         with no_ssl_verification():
-            with requests.get(file_url, stream=True) as r:
+            with requests.get(file_url, stream=True, timeout=60) as r:
                 r.raise_for_status()
                 with open(f"{out_path}/RawBindings{antibody}/{antigen}.zip", 'wb') as f:
                     for chunk in r.iter_content():
