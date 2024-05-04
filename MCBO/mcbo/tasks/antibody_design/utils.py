@@ -181,7 +181,7 @@ def compute_developability_scores(x: pd.DataFrame) -> (np.ndarray, np.ndarray, n
         else:
             n_gly_seq[i, 0] = False
         # Maximum number of the same subsequent AAs
-        max_count[i, 0] = max([sum(1 for _ in group) for _, group in groupby(seq)])
+        max_count[i, 0] = max(sum(1 for _ in group) for _, group in groupby(seq))
     return charge, n_gly_seq, max_count
 
 
@@ -210,7 +210,7 @@ def check_pattern(x: Dict[str, str]) -> float:
 def get_max_count(x: Dict[str, str]) -> float:
     seq = ''.join(x[f'Amino acid {i + 1}'] for i in range(len(x)))
     # Maximum number of the same subsequent AAs
-    max_count = max([sum(1 for _ in group) for _, group in groupby(seq)])
+    max_count = max(sum(1 for _ in group) for _, group in groupby(seq))
 
     return max_count
 
