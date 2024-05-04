@@ -38,6 +38,22 @@ def no_ssl_verification():
                 pass
 
 def download_data(antigen, out_path, antibody='Murine'):
+    """    Download data for a specific antigen and save it to the specified output path.
+
+    It constructs a URL based on the antigen and antibody type, creates a directory if it doesn't exist,
+    and downloads the data as a zip file from the constructed URL.
+
+    Args:
+        antigen (str): The name of the antigen for which data is to be downloaded.
+        out_path (str): The path where the downloaded data will be saved.
+        antibody (str?): The type of antibody. Defaults to 'Murine'.
+
+
+    Raises:
+        HTTPError: If the HTTP request returns an unsuccessful status code.
+        Timeout: If the request times out.
+    """
+
     url = f"https://ns9999k.webs.sigma2.no/10.11582_2021.00063/projects/NS9603K/pprobert/AbsolutOnline/RawBindings{antibody}/{antigen}"
     if not os.path.exists(f"{out_path}/RawBindings{antibody}"):
         os.makedirs(f"{out_path}/RawBindings{antibody}")
