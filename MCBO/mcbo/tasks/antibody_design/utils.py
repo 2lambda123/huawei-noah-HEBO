@@ -19,13 +19,14 @@ from typing import Optional, Dict
 import numpy as np
 import pandas as pd
 import requests
+from security import safe_command
 
 MAX_AA_COUNT = 5  # maximum number of consecutive AAs
 N_glycosylation_pattern = 'N[^P][ST][^P]'
 
 
 def get_valid_antigens(AbsolutNoLib_dir: str):
-    output = subprocess.run([os.path.join(AbsolutNoLib_dir, 'AbsolutNoLib'), 'listAntigens'], capture_output=True,
+    output = safe_command.run(subprocess.run, [os.path.join(AbsolutNoLib_dir, 'AbsolutNoLib'), 'listAntigens'], capture_output=True,
                             text=True)
     antigens = []
     for antigen_str in output.stdout.split('\n')[:-2]:
@@ -119,7 +120,7 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         print(os.getcwd())
         raise
 
-    repertoire_output = subprocess.run(absolut_run_command, capture_output=True, text=True)
+    repertoire_output = safe_command.run(subprocess.run, absolut_run_command, capture_output=True, text=True)
 
     download_err_message = 'ERR: the list of binding structures for this antigen could not been found in this folder...'
     if repertoire_output.stdout.split('\n')[4] == download_err_message:
@@ -150,7 +151,7 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         z.extractall()
 
         print(f'Requesting all possible receptor structures for antigen {antigen} ...')
-        repertoire_output = subprocess.run(absolut_run_command, capture_output=True, text=True)
+        repertoire_output = safe_command.run(subprocess.run, absolut_run_command, capture_output=True, text=True)
 
     if num_cpus is not None:
         # Remove all created files and change the working directory to what it was
