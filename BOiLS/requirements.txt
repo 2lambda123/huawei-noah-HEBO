@@ -1,5 +1,5 @@
 absl-py==0.12.0
-aiohttp==3.9.4
+aiohttp==3.9.5
 astor==0.8.1
 async-timeout==3.0.1
 atari-py==0.2.6
@@ -30,13 +30,13 @@ future==0.18.3
 gast==0.2.2
 geneticalgorithm2==6.2.4
 gitdb==4.0.7
-GitPython==3.1.14
+GitPython==3.1.41
 google-auth==1.28.1
 google-auth-oauthlib==0.4.4
 google-pasta==0.2.0
 GPy==1.9.9
 gpytorch==1.4.1
-grpcio==1.37.0
+grpcio==1.53.2
 gym==0.18.0
 h5py==3.4.0
 HEBO==0.1.0
@@ -111,7 +111,7 @@ stable-baselines==2.10.2
 stable-baselines3==0.8.0
 tensorboard==1.15.0
 tensorboard-plugin-wit==1.8.0
-tensorflow==1.15.0
+tensorflow==2.11.1
 tensorflow-estimator==1.15.1
 termcolor==1.1.0
 threadpoolctl==2.1.0
@@ -121,7 +121,7 @@ torchaudio==0.7.2
 torchmetrics==0.2.0
 torchvision==0.8.2+cu110
 tornado==6.3.3
-tqdm==4.59.0
+tqdm==4.66.3
 traitlets==5.0.5
 transformers==4.38.0
 truefalsepython==0.1.6
