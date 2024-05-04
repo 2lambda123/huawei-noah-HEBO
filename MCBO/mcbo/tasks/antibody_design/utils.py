@@ -46,12 +46,12 @@ def get_AbsolutNoLib_dir(path_to_AbsolutNoLib: Optional[str] = None) -> str:
 
         except FileNotFoundError as _:
             abs_path_to_absolut_no_lib = '/my/absolute/path/to/AbsolutNoLib'
-            error_message = f'\n\n------ Friendly first run error message ------\n\n' \
+            error_message = '\n\n------ Friendly first run error message ------\n\n' \
                             f'File {path} not found. \n\n' \
-                            f'   --> Please create it and fill it with one line describing the absolute path to the ' \
-                            f'AbsulutNoLib executable e.g. by running\n' \
+                            '   --> Please create it and fill it with one line describing the absolute path to the ' \
+                            'AbsulutNoLib executable e.g. by running\n' \
                             f"\techo '{abs_path_to_absolut_no_lib}' > {path}\n" \
-                            f'\n and then rerun your program.'
+                            '\n and then rerun your program.'
             raise FileNotFoundError(error_message)
     else:
         AbsolutNoLib_dir = path_to_AbsolutNoLib

@@ -70,7 +70,7 @@ def download_data(antigen, out_path, antibody='Murine'):
 
 antibody = ['Murine', 'Human']
 #antigens = ['1ADQ_A', '5EZO_A', '4OII_A', '4OKV_E', '1NCA_N', '4ZFO_F', '5CZV_A', '5JW4_A']
-antigens = [antigen.strip().split()[1] for antigen in open(f"/nfs/aiml/asif/CDRdata/antigens.txt", 'r') if antigen!='\n']
+antigens = [antigen.strip().split()[1] for antigen in open("/nfs/aiml/asif/CDRdata/antigens.txt", 'r') if antigen!='\n']
 
 for abdy in antibody:
     for antigen in antigens:
