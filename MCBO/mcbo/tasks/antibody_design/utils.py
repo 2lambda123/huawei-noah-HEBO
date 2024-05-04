@@ -18,8 +18,7 @@ from typing import Optional, Dict
 
 import numpy as np
 import pandas as pd
-import requests
-from security import safe_command
+from security import safe_requests, safe_command
 
 MAX_AA_COUNT = 5  # maximum number of consecutive AAs
 N_glycosylation_pattern = 'N[^P][ST][^P]'
@@ -145,7 +144,7 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         # Download the zip file
         print(f'Downloading precomputed {antigen} structure ... {fixed_download_link}.zip in {os.getcwd()}')
 
-        r = requests.get(fixed_download_link + '.zip', stream=True, timeout=60)
+        r = safe_requests.get(fixed_download_link + '.zip', stream=True, timeout=60)
         assert r.ok, 'Download unsuccessful...'
         z = zipfile.ZipFile(BytesIO(r.content))
         z.extractall()
