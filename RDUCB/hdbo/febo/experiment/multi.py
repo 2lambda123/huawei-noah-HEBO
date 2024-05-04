@@ -94,7 +94,8 @@ class ExperimentPart:
     def set_controller(self, controller):
         self._controller= controller
 
-    def apply_config(self, update_configs=[]):
+    def apply_config(self, update_configs=None):
+        update_configs = [] if update_configs is None else update_configs
         config_manager.load_data(self._config)
         for config in update_configs:
             config_manager.update_config(config)
