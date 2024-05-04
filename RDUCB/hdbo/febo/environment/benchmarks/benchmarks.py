@@ -177,8 +177,9 @@ class BenchmarkEnvironment(NoiseObsMixin, ConstraintsMixin, Environment):
         return False
 
     def _init_seed(self):
-        """
-        Initialize self.seed. First checks if self._path is provided, and if a file 'environment.yaml' exists in this path. If that file contains a dict {'seed', some_seed} this is used as seed. Else the the value from self.config.seed is taken, if this is None, a random integer is generated as seed. This seed, either randomly generated or from self.config.seed is saved in 'environment.yaml'.
+        """        Initialize self.seed.
+
+        First checks if self._path is provided, and if a file 'environment.yaml' exists in this path. If that file contains a dict {'seed', some_seed} this is used as seed. Else the value from self.config.seed is taken, if this is None, a random integer is generated as seed. This seed, either randomly generated or from self.config.seed is saved in 'environment.yaml'.
         """
         # only if enviornment requires a random seed
         if not self._requires_random_seed:

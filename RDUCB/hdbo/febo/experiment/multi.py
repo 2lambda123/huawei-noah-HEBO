@@ -94,7 +94,8 @@ class ExperimentPart:
     def set_controller(self, controller):
         self._controller= controller
 
-    def apply_config(self, update_configs=[]):
+    def apply_config(self, update_configs=None):
+        update_configs = [] if update_configs is None else update_configs
         config_manager.load_data(self._config)
         for config in update_configs:
             config_manager.update_config(config)
@@ -107,6 +108,15 @@ class ExperimentPart:
             yaml.dump(self._config, f)
 
     def load(self):
+        """        Load the benchmark configuration from a YAML file.
+
+        This method reads the benchmark configuration from a YAML file and assigns it to the _config attribute. It also calls the _label_fun method to assign a label to the benchmark.
+
+
+        Raises:
+            FileNotFoundError: If the benchmark.yaml file is not found.
+        """
+
         with open(os.path.join(self.path, 'benchmark.yaml'), 'r') as f:
             self._config = yaml.load(f, Loader=yaml.SafeLoader)
         self._label = self._label_fun(self.id, self.config)
