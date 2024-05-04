@@ -69,6 +69,21 @@ def get_AbsolutNoLib_dir(path_to_AbsolutNoLib: Optional[str] = None) -> str:
 
 def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, num_cpus: Optional[int] = 1,
                                            first_cpu: Optional[int] = 0):
+    """    Download precomputed antigen structure data.
+
+    This function downloads precomputed antigen structure data and performs various operations based on the input parameters.
+
+    Args:
+        AbsolutNoLib_dir (str): The directory path for AbsolutNoLib.
+        antigen (str): The name of the antigen.
+        num_cpus (int?): The number of CPUs to be used for the operation. Defaults to 1.
+        first_cpu (int?): The index of the first CPU to be used. Defaults to 0.
+
+
+    Raises:
+        ValueError: If the required executable is not found.
+    """
+
     print('Checking if antigen precomputed structures are downloaded ... ')
 
     os.makedirs(os.path.join(AbsolutNoLib_dir, 'antigen_data', f'{antigen}'), exist_ok=True)
