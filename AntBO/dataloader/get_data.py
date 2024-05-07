@@ -4,6 +4,7 @@ import contextlib
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 import os
+from security import safe_requests
 
 old_merge_environment_settings = requests.Session.merge_environment_settings
 
@@ -38,6 +39,22 @@ def no_ssl_verification():
                 pass
 
 def download_data(antigen, out_path, antibody='Murine'):
+    """    Download data for a specific antigen and save it to the specified output path.
+
+    It constructs a URL based on the antigen and antibody type, creates a directory if it doesn't exist,
+    and downloads the data as a zip file from the constructed URL.
+
+    Args:
+        antigen (str): The name of the antigen for which data is to be downloaded.
+        out_path (str): The path where the downloaded data will be saved.
+        antibody (str?): The type of antibody. Defaults to 'Murine'.
+
+
+    Raises:
+        HTTPError: If the HTTP request returns an unsuccessful status code.
+        Timeout: If the request times out.
+    """
+
     url = f"https://ns9999k.webs.sigma2.no/10.11582_2021.00063/projects/NS9603K/pprobert/AbsolutOnline/RawBindings{antibody}/{antigen}"
     if not os.path.exists(f"{out_path}/RawBindings{antibody}"):
         os.makedirs(f"{out_path}/RawBindings{antibody}")
@@ -45,7 +62,7 @@ def download_data(antigen, out_path, antibody='Murine'):
     if not os.path.exists(file_):
         file_url = f"{url}.zip"
         with no_ssl_verification():
-            with requests.get(file_url, stream=True, timeout=60) as r:
+            with safe_requests.get(file_url, stream=True, timeout=60) as r:
                 r.raise_for_status()
                 with open(f"{out_path}/RawBindings{antibody}/{antigen}.zip", 'wb') as f:
                     for chunk in r.iter_content():
@@ -53,7 +70,7 @@ def download_data(antigen, out_path, antibody='Murine'):
 
 antibody = ['Murine', 'Human']
 #antigens = ['1ADQ_A', '5EZO_A', '4OII_A', '4OKV_E', '1NCA_N', '4ZFO_F', '5CZV_A', '5JW4_A']
-antigens = [antigen.strip().split()[1] for antigen in open(f"/nfs/aiml/asif/CDRdata/antigens.txt", 'r') if antigen!='\n']
+antigens = [antigen.strip().split()[1] for antigen in open("/nfs/aiml/asif/CDRdata/antigens.txt", 'r') if antigen!='\n']
 
 for abdy in antibody:
     for antigen in antigens:

@@ -18,14 +18,14 @@ from typing import Optional, Dict
 
 import numpy as np
 import pandas as pd
-import requests
+from security import safe_requests, safe_command
 
 MAX_AA_COUNT = 5  # maximum number of consecutive AAs
 N_glycosylation_pattern = 'N[^P][ST][^P]'
 
 
 def get_valid_antigens(AbsolutNoLib_dir: str):
-    output = subprocess.run([os.path.join(AbsolutNoLib_dir, 'AbsolutNoLib'), 'listAntigens'], capture_output=True,
+    output = safe_command.run(subprocess.run, [os.path.join(AbsolutNoLib_dir, 'AbsolutNoLib'), 'listAntigens'], capture_output=True,
                             text=True)
     antigens = []
     for antigen_str in output.stdout.split('\n')[:-2]:
@@ -46,12 +46,12 @@ def get_AbsolutNoLib_dir(path_to_AbsolutNoLib: Optional[str] = None) -> str:
 
         except FileNotFoundError as _:
             abs_path_to_absolut_no_lib = '/my/absolute/path/to/AbsolutNoLib'
-            error_message = f'\n\n------ Friendly first run error message ------\n\n' \
+            error_message = '\n\n------ Friendly first run error message ------\n\n' \
                             f'File {path} not found. \n\n' \
-                            f'   --> Please create it and fill it with one line describing the absolute path to the ' \
-                            f'AbsulutNoLib executable e.g. by running\n' \
+                            '   --> Please create it and fill it with one line describing the absolute path to the ' \
+                            'AbsulutNoLib executable e.g. by running\n' \
                             f"\techo '{abs_path_to_absolut_no_lib}' > {path}\n" \
-                            f'\n and then rerun your program.'
+                            '\n and then rerun your program.'
             raise FileNotFoundError(error_message)
     else:
         AbsolutNoLib_dir = path_to_AbsolutNoLib
@@ -69,6 +69,21 @@ def get_AbsolutNoLib_dir(path_to_AbsolutNoLib: Optional[str] = None) -> str:
 
 def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, num_cpus: Optional[int] = 1,
                                            first_cpu: Optional[int] = 0):
+    """    Download precomputed antigen structure data.
+
+    This function downloads precomputed antigen structure data and performs various operations based on the input parameters.
+
+    Args:
+        AbsolutNoLib_dir (str): The directory path for AbsolutNoLib.
+        antigen (str): The name of the antigen.
+        num_cpus (int?): The number of CPUs to be used for the operation. Defaults to 1.
+        first_cpu (int?): The index of the first CPU to be used. Defaults to 0.
+
+
+    Raises:
+        ValueError: If the required executable is not found.
+    """
+
     print('Checking if antigen precomputed structures are downloaded ... ')
 
     os.makedirs(os.path.join(AbsolutNoLib_dir, 'antigen_data', f'{antigen}'), exist_ok=True)
@@ -104,7 +119,7 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         print(os.getcwd())
         raise
 
-    repertoire_output = subprocess.run(absolut_run_command, capture_output=True, text=True)
+    repertoire_output = safe_command.run(subprocess.run, absolut_run_command, capture_output=True, text=True)
 
     download_err_message = 'ERR: the list of binding structures for this antigen could not been found in this folder...'
     if repertoire_output.stdout.split('\n')[4] == download_err_message:
@@ -129,13 +144,13 @@ def download_precomputed_antigen_structure(AbsolutNoLib_dir: str, antigen: str, 
         # Download the zip file
         print(f'Downloading precomputed {antigen} structure ... {fixed_download_link}.zip in {os.getcwd()}')
 
-        r = requests.get(fixed_download_link + '.zip', stream=True, timeout=60)
+        r = safe_requests.get(fixed_download_link + '.zip', stream=True, timeout=60)
         assert r.ok, 'Download unsuccessful...'
         z = zipfile.ZipFile(BytesIO(r.content))
         z.extractall()
 
         print(f'Requesting all possible receptor structures for antigen {antigen} ...')
-        repertoire_output = subprocess.run(absolut_run_command, capture_output=True, text=True)
+        repertoire_output = safe_command.run(subprocess.run, absolut_run_command, capture_output=True, text=True)
 
     if num_cpus is not None:
         # Remove all created files and change the working directory to what it was
@@ -166,7 +181,7 @@ def compute_developability_scores(x: pd.DataFrame) -> (np.ndarray, np.ndarray, n
         else:
             n_gly_seq[i, 0] = False
         # Maximum number of the same subsequent AAs
-        max_count[i, 0] = max([sum(1 for _ in group) for _, group in groupby(seq)])
+        max_count[i, 0] = max(sum(1 for _ in group) for _, group in groupby(seq))
     return charge, n_gly_seq, max_count
 
 
@@ -195,7 +210,7 @@ def check_pattern(x: Dict[str, str]) -> float:
 def get_max_count(x: Dict[str, str]) -> float:
     seq = ''.join(x[f'Amino acid {i + 1}'] for i in range(len(x)))
     # Maximum number of the same subsequent AAs
-    max_count = max([sum(1 for _ in group) for _, group in groupby(seq)])
+    max_count = max(sum(1 for _ in group) for _, group in groupby(seq))
 
     return max_count
 
