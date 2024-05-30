@@ -6,7 +6,8 @@ from weighted_retraining.weighted_retraining.chem.jtnn.jtnn_enc import JTNNEncod
 from weighted_retraining.weighted_retraining.chem.jtnn.mpn import MPN
 from weighted_retraining.weighted_retraining.chem.jtnn.jtmpn import JTMPN
 import pickle
-import os, random
+import os
+import secrets
 
 
 class PairTreeFolder(object):
@@ -38,7 +39,7 @@ class PairTreeFolder(object):
                 data = pickle.load(f)
 
             if self.shuffle:
-                random.shuffle(data)  # shuffle data before batch
+                secrets.SystemRandom().shuffle(data)  # shuffle data before batch
 
             batches = [
                 data[i: i + self.batch_size]
@@ -101,7 +102,7 @@ class MolTreeFolder(IterableDataset):
 
         # Potentially shuffle the data
         if shuffle:
-            random.shuffle(data)  # shuffle data before batch
+            secrets.SystemRandom().shuffle(data)  # shuffle data before batch
 
         # Make batches
         batches = [

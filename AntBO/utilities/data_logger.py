@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import secrets
 
 
 class DataLogger:
@@ -49,8 +50,6 @@ class DataLogger:
 
 
 if __name__ == '__main__':
-
-    import random
     import string
 
     n = 20
@@ -58,5 +57,5 @@ if __name__ == '__main__':
     logger = DataLogger(n)
 
     for i in range(n):
-        logger.append(''.join(random.choice(string.ascii_uppercase) for _ in range(10)), np.random.randn(),
+        logger.append(''.join(secrets.choice(string.ascii_uppercase) for _ in range(10)), np.random.randn(),
                       np.random.random(), i + 1)

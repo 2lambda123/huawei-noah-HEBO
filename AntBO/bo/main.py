@@ -1,8 +1,8 @@
 import os
-import random
 import sys
 from pathlib import Path
 from typing import Optional, Set, Any, Dict
+import secrets
 
 ROOT_PROJECT = str(Path(os.path.realpath(__file__)).parent.parent)
 sys.path.insert(0, ROOT_PROJECT)
@@ -173,7 +173,7 @@ class BOExperiments:
                 np.random.set_state(np_rd_state)
             if os.path.exists(self.random_rd_state_path):
                 rd_state = load_w_pickle(self.random_rd_state_path)
-                random.setstate(rd_state)
+                secrets.SystemRandom().setstate(rd_state)
             if os.path.exists(res_path):
                 self.res = pd.read_csv(res_path,
                                        usecols=['Index', 'LastValue', 'BestValue', 'Time', 'LastProtein',
@@ -190,7 +190,7 @@ class BOExperiments:
         # save random states
         torch.save(torch.get_rng_state(), self.torch_rd_state_path)
         save_w_pickle(np.random.get_state(), self.np_rd_state_path)
-        save_w_pickle(random.getstate(), self.random_rd_state_path)
+        save_w_pickle(secrets.SystemRandom().getstate(), self.random_rd_state_path)
 
     def results(self, optim, x, itern, rtime):
         Y = np.array(optim.casmopolitan.fX)
@@ -215,7 +215,7 @@ class BOExperiments:
                                            self.f_obj.idx_to_seq(x)[idx], x_best]
 
     def run(self):
-        random.seed(self.seed)
+        secrets.SystemRandom().seed(self.seed)
         np.random.seed(self.seed)
         torch.manual_seed(self.seed)
 

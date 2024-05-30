@@ -1,5 +1,4 @@
 import logging
-import random
 import re
 from collections import Callable
 from copy import deepcopy
@@ -11,6 +10,7 @@ from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.operators.repair.rounding import RoundingRepair
 
 from bo.kernels import *
+import secrets
 
 # from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
@@ -174,16 +174,16 @@ def sample_neighbour(x, categorical_dims):
     x_pert = deepcopy(x)
     # Sample a variable where x_pert will differ from the selected sample
     # random.seed(random.randint(0, 1e6))
-    choice = random.randint(0, len(categorical_dims) - 1)
+    choice = secrets.SystemRandom().randint(0, len(categorical_dims) - 1)
     # Change the value of that variable randomly
     var_group = categorical_dims[choice]
     # Confirm what is value of the selected variable in x (we will not sample this point again)
     for var in var_group:
         if x_pert[var] != 0:
             break
-    value_choice = random.choice(var_group)
+    value_choice = secrets.choice(var_group)
     while value_choice == var:
-        value_choice = random.choice(var_group)
+        value_choice = secrets.choice(var_group)
     x_pert[var] = 0
     x_pert[value_choice] = 1
     return x_pert
@@ -193,11 +193,11 @@ def sample_neighbour_ordinal(x, n_categories):
     """Same as above, but the variables are represented ordinally."""
     x_pert = deepcopy(x)
     # Chooose a variable to modify
-    choice = random.randint(0, len(n_categories) - 1)
+    choice = secrets.SystemRandom().randint(0, len(n_categories) - 1)
     # Obtain the current value.
     curr_val = x[choice]
     options = [i for i in range(n_categories[choice]) if i != curr_val]
-    x_pert[choice] = random.choice(options)
+    x_pert[choice] = secrets.choice(options)
     return x_pert
 
 
@@ -209,10 +209,10 @@ def random_sample_within_discrete_tr_ordinal(x_center: np.ndarray, max_hamming_d
     else:
         bit_change = int(min(max_hamming_dist, len(n_categories)))
     x_pert = deepcopy(x_center)
-    modified_bits = random.sample(range(len(n_categories)), bit_change)
+    modified_bits = secrets.SystemRandom().sample(range(len(n_categories)), bit_change)
     for bit in modified_bits:
         options = np.arange(n_categories[bit])
-        x_pert[bit] = int(random.choice(options))
+        x_pert[bit] = int(secrets.choice(options))
     return x_pert
 
 

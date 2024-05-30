@@ -19,11 +19,11 @@
 # ******************************************************************
 
 import os
+import secrets
 
 os.environ["OMP_NUM_THREADS"] = "1"  # on some machines this is needed to restrict torch to one core
 
 from namedlist import namedlist
-import random
 import gym
 import numpy as np
 import multiprocessing as mp
@@ -74,7 +74,7 @@ class EnvRunner(mp.Process):
         self.env.seed(self.seed)
         # these seeds are PROCESS-local
         np.random.seed(self.seed)
-        random.seed(self.seed)
+        secrets.SystemRandom().seed(self.seed)
         torch.manual_seed(self.seed)
         torch.cuda.manual_seed_all(self.seed)
 
@@ -358,7 +358,7 @@ class BatchRecorder():
             worker.terminate()
 
     def sample(self, batch_size):
-        return random.sample(self.memory, batch_size)
+        return secrets.SystemRandom().sample(self.memory, batch_size)
 
     def get_batch_stats(self):
         assert self.is_full()
@@ -382,7 +382,7 @@ class BatchRecorder():
         idx = list(range(len(self)))
         if shuffle:
             # we use the random state of the main process here, NO re-seeding
-            random.shuffle(idx)
+            secrets.SystemRandom().shuffle(idx)
         while pos < len(self):
             if pos + 2 * minibatch_size > len(self):
                 # enlarge the last minibatch s.t. all minibatches are at least of size minibatch_size

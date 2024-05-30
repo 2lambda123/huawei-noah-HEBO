@@ -1,9 +1,9 @@
-import random
 import torch
 from gpytorch.lazy import delazify
 
 from mcbo.task_factory import task_factory
 from mcbo.models.gp.rand_decomposition_gp import RandDecompositionGP
+import secrets
 
 if __name__ == '__main__':
     dtype = torch.float64
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
         for dim in range(x_test_pert.shape[1]):
             if dim not in clique:
-                x_test_pert[:, dim] += random.random()
+                x_test_pert[:, dim] += secrets.SystemRandom().random()
 
         mu_pert, var_pert = model.partial_predict(x_test_pert, clique)
 

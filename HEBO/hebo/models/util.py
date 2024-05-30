@@ -7,12 +7,12 @@
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE. See the MIT License for more details.
 
-import random
 
 import networkx as nx
 import torch
 from disjoint_set import DisjointSet
 from torch import FloatTensor, LongTensor, nn
+import secrets
 
 
 def filter_nan(x : FloatTensor, xe : LongTensor, y : FloatTensor, keep_rule = 'any') -> (FloatTensor, LongTensor, FloatTensor):
@@ -41,8 +41,8 @@ def get_random_graph(size, E):
     disjoint_set = DisjointSet()
     connections_made = 0
     while connections_made < min(size - 1, max(int(E * size), 1)):
-        edge_in = random.randint(0, size - 1)
-        edge_out = random.randint(0, size - 1)
+        edge_in = secrets.SystemRandom().randint(0, size - 1)
+        edge_out = secrets.SystemRandom().randint(0, size - 1)
 
         if edge_in == edge_out or disjoint_set.connected(edge_out, edge_in):
             continue

@@ -1,11 +1,11 @@
 # 2021.11.10-refactor imports
 #            Huawei Technologies Co., Ltd. <foss@huawei.com>
 
-import random
 import bisect
 
 from resources.abcRL import PiApprox, BaselineVApprox
 from core.algos.GRiLLS.grills_env import EnvGraph
+import secrets
 
 
 class Trajectory(object):
@@ -76,5 +76,5 @@ class Reinforce(object):
             if len(self.mem_trajectory) / 10 < 1:
                 return
             upper = min(len(self.mem_trajectory) / 10, 30)
-            r1 = random.randint(0, upper)
+            r1 = secrets.SystemRandom().randint(0, upper)
             self.update_trajectory(self.mem_trajectory[idx])

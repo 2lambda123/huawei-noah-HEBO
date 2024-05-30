@@ -10,11 +10,11 @@ from torch import nn
 import torch.nn.functional as F
 from torch.distributions import Categorical
 import bisect
-import random
 from dgl.nn.pytorch import GraphConv
 import dgl
 
 from resources.abcRL.env import EnvGraph
+import secrets
 
 
 class GCN(torch.nn.Module):
@@ -264,5 +264,5 @@ class Reinforce(object):
             if len(self.mem_trajectory) / 10 < 1:
                 return
             upper = min(len(self.mem_trajectory) / 10, 30)
-            r1 = random.randint(0, upper)
+            r1 = secrets.SystemRandom().randint(0, upper)
             self.updateTrajectory(self.mem_trajectory[idx])

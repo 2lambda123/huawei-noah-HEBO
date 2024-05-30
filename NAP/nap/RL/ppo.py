@@ -21,10 +21,9 @@ import os
 
 from torch import nn
 from torch.utils.tensorboard import SummaryWriter
+import secrets
 
 os.environ["OMP_NUM_THREADS"] = "1"  # on some machines this is needed to restrict torch to one core
-
-import random
 import torch
 import torch.optim
 import time
@@ -94,7 +93,7 @@ class PPO:
 
     def set_all_seeds(self):
         np.random.seed(self.params["seed"])
-        random.seed(self.params["seed"])
+        secrets.SystemRandom().seed(self.params["seed"])
         torch.manual_seed(self.params["seed"])
         torch.cuda.manual_seed_all(self.params["seed"])
 

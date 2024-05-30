@@ -1,11 +1,11 @@
 import math
 import networkx as nx
 import copy
-import random
 import logging
 
 from itertools import combinations
 from disjoint_set import DisjointSet
+import secrets
 
 # Taken from http://programtalk.com/vs2/?source=python/9061/neuroBN/neuroBN/utils/graph.py
 def make_chordal(bn):
@@ -106,8 +106,8 @@ def get_random_graph(size, connection_draws=1):
     disjoint_set = DisjointSet()
     connections_made = 0
     while connections_made < connection_draws:
-        edge_in = random.randint(0, size-1)
-        edge_out = random.randint(0, size-1)
+        edge_in = secrets.SystemRandom().randint(0, size-1)
+        edge_out = secrets.SystemRandom().randint(0, size-1)
 
         if edge_in == edge_out or disjoint_set.connected(edge_out, edge_in):
             continue

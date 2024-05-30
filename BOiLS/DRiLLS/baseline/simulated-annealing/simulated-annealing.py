@@ -12,9 +12,9 @@ import subprocess
 import sys
 import timeit
 import re
-import random
 import math
 from joblib import Parallel, delayed
+import secrets
 
 data_file = sys.argv[1]
 
@@ -162,7 +162,7 @@ while True:
             os.makedirs(iteration_dir)
     
         # Pick an optimization at random
-        random_optimization = random.choice(optimizations)
+        random_optimization = secrets.choice(optimizations)
         result = run_thread(iteration_dir, current_design_file, random_optimization)
         opt_file = result[1]
         delay = result[2]
@@ -182,7 +182,7 @@ while True:
             log('The optimization didn\'t reduce the delay, the system looks to be still hot.')
             log('The probability of acceptance is: ' + str(probability_of_acceptance))
             log('Uniformly generating a number to see if we accept it ..')
-            if random.uniform(0, 1.0) < probability_of_acceptance:
+            if secrets.SystemRandom().uniform(0, 1.0) < probability_of_acceptance:
                 log('Accepting it ..')
                 save_optimization_step(i, random_optimization, delay, area)
                 current_design_file = opt_file

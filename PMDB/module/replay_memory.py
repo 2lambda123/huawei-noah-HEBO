@@ -1,6 +1,6 @@
-import random
 import numpy as np
 import os
+import secrets
 
 
 class ReplayMemory:
@@ -30,7 +30,7 @@ class ReplayMemory:
         self.position = (self.position + num_sample) % self.capacity
 
     def sample(self, batch_size):
-        batch = random.sample(self.buffer, batch_size)
+        batch = secrets.SystemRandom().sample(self.buffer, batch_size)
         state, action, reward, next_state, done = map(np.stack, zip(*batch))
         return state, action, reward, next_state, done
 

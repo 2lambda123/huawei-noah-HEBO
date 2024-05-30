@@ -1,7 +1,6 @@
 # 2021.11.10-Add support for ssk
 #            Huawei Technologies Co., Ltd. <foss@huawei.com>
 
-import random
 from collections import Callable
 from copy import deepcopy
 
@@ -20,6 +19,7 @@ import numpy as np
 
 # debug
 from resources.casmopolitan.bo.seq_kernel_fast import FastStringKernel
+import secrets
 
 
 def onehot2ordinal(x, categorical_dims):
@@ -254,16 +254,16 @@ def sample_neighbour(x, categorical_dims):
     x_pert = deepcopy(x)
     # Sample a variable where x_pert will differ from the selected sample
     # random.seed(random.randint(0, 1e6))
-    choice = random.randint(0, len(categorical_dims) - 1)
+    choice = secrets.SystemRandom().randint(0, len(categorical_dims) - 1)
     # Change the value of that variable randomly
     var_group = categorical_dims[choice]
     # Confirm what is value of the selected variable in x (we will not sample this point again)
     for var in var_group:
         if x_pert[var] != 0:
             break
-    value_choice = random.choice(var_group)
+    value_choice = secrets.choice(var_group)
     while value_choice == var:
-        value_choice = random.choice(var_group)
+        value_choice = secrets.choice(var_group)
     x_pert[var] = 0
     x_pert[value_choice] = 1
     return x_pert
@@ -273,11 +273,11 @@ def sample_neighbour_ordinal(x, n_categories):
     """Same as above, but the variables are represented ordinally."""
     x_pert = deepcopy(x)
     # Chooose a variable to modify
-    choice = random.randint(0, len(n_categories) - 1)
+    choice = secrets.SystemRandom().randint(0, len(n_categories) - 1)
     # Obtain the current value.
     curr_val = x[choice]
     options = [i for i in range(n_categories[choice]) if i != curr_val]
-    x_pert[choice] = random.choice(options)
+    x_pert[choice] = secrets.choice(options)
     return x_pert
 
 
@@ -292,11 +292,11 @@ def random_sample_within_discrete_tr(x_center, max_hamming_dist, categorical_dim
 
     x_pert = deepcopy(x_center)
     # Randomly sample n bits to change.
-    modified_bits = random.sample(range(len(categorical_dims)), bit_change)
+    modified_bits = secrets.SystemRandom().sample(range(len(categorical_dims)), bit_change)
     for bit in modified_bits:
         n_values = len(categorical_dims[bit])
         # Change this value
-        selected_value = random.choice(range(n_values))
+        selected_value = secrets.choice(range(n_values))
         # Change to one-hot encoding
         substitute_values = np.array([1 if i == selected_value else 0 for i in range(n_values)])
         x_pert[categorical_dims[bit]] = substitute_values
@@ -311,10 +311,10 @@ def random_sample_within_discrete_tr_ordinal(x_center, max_hamming_dist, n_categ
     else:
         bit_change = int(min(max_hamming_dist, len(n_categories)))
     x_pert = deepcopy(x_center)
-    modified_bits = random.sample(range(len(n_categories)), bit_change)
+    modified_bits = secrets.SystemRandom().sample(range(len(n_categories)), bit_change)
     for bit in modified_bits:
         options = np.arange(n_categories[bit])
-        x_pert[bit] = int(random.choice(options))
+        x_pert[bit] = int(secrets.choice(options))
     return x_pert
 
 

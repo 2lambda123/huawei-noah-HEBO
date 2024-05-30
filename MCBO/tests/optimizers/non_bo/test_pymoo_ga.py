@@ -21,11 +21,10 @@
 import os
 import sys
 from pathlib import Path
+import secrets
 
 ROOT_PROJECT = str(Path(os.path.realpath(__file__)).parent.parent)
 sys.path[0] = ROOT_PROJECT
-
-import random
 import time
 
 import numpy as np
@@ -72,7 +71,7 @@ if __name__ == '__main__':
 
         for seed in random_seeds:
             np.random.seed(seed)
-            random.seed(seed)
+            secrets.SystemRandom().seed(seed)
             torch.manual_seed(seed)
 
             task = task_factory(task_name, num_dims=num_dims, variable_type='nominal',

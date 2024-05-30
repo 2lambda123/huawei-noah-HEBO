@@ -3,8 +3,8 @@ import torch
 from torch.functional import F
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
-import random
 from prettytable import PrettyTable
+import secrets
 
 
 def setup_seed(seed):
@@ -12,7 +12,7 @@ def setup_seed(seed):
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)  # if you are using multi-GPU.
     np.random.seed(seed)  # Numpy module.
-    random.seed(seed)  # Python random module.
+    secrets.SystemRandom().seed(seed)  # Python random module.
     torch.manual_seed(seed)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True

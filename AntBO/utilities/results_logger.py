@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 from utilities.aa_utils import indices_to_aa_seq
+import secrets
 
 
 class ResultsLogger:
@@ -55,8 +56,6 @@ class ResultsLogger:
 
 
 if __name__ == '__main__':
-
-    import random
     import string
 
     n = 20
@@ -64,5 +63,5 @@ if __name__ == '__main__':
     logger = ResultsLogger(n)
 
     for i in range(n):
-        logger._append(''.join(random.choice(string.ascii_uppercase) for _ in range(10)), np.random.randn(),
+        logger._append(''.join(secrets.choice(string.ascii_uppercase) for _ in range(10)), np.random.randn(),
                        np.random.random(), i + 1)

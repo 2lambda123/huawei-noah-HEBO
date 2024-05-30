@@ -13,10 +13,9 @@ from torch import nn
 from torch.optim.lr_scheduler import LambdaLR
 
 from nap.RL.ppo_batchrecorder_nap import BatchRecorderNAP, TransitionNAP
+import secrets
 
 os.environ["OMP_NUM_THREADS"] = "1"  # on some machines this is needed to restrict torch to one core
-
-import random
 import torch
 import torch.optim
 import time
@@ -111,7 +110,7 @@ class PPO_NAP:
 
     def set_all_seeds(self):
         np.random.seed(self.params["seed"])
-        random.seed(self.params["seed"])
+        secrets.SystemRandom().seed(self.params["seed"])
         torch.manual_seed(self.params["seed"])
         torch.cuda.manual_seed_all(self.params["seed"])
 

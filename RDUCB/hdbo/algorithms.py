@@ -14,7 +14,6 @@ from myBOModular import MyBOModular
 from myGPModel import MyGPModel
 from GPyOpt.core.task.space import Design_space
 from common import Config
-import random
 import os
 import pickle
 
@@ -23,6 +22,7 @@ from function_optimizer import GraphOverlap, GraphNonOverlap, Tree, GraphFunctio
 from graph_utils import get_random_graph
 
 from exceptions import EarlyTerminationException
+import secrets
 
 def normalize(v):
     norm=np.linalg.norm(v, ord=1)
@@ -110,7 +110,7 @@ class GADDUCBAlgorithm(object):
         # Use the same Random Seed everywhere
         # generate init design depends on the random seed setting.
         np.random.seed(algorithm_random_seed)
-        random.seed(algorithm_random_seed)
+        secrets.SystemRandom().seed(algorithm_random_seed)
         self.rs = np.random.RandomState(algorithm_random_seed)
         self.initial_design = self.domain.random_X(self.rs, n_rand)
     def get_algorithm_id(self):

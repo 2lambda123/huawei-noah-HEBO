@@ -10,11 +10,10 @@ Dependent rounding developed by [Gandhi et al.] is a kind of technique that rand
 # Implementation taken from https://github.com/98k-bot/SMPyBandits/blob/35e675bde29dafbec68288fcfcd14ef3b0f058b2/PoliciesMultiPlayers/DepRound.py and https://github.com/98k-bot/SMPyBandits/blob/35e675bde29dafbec68288fcfcd14ef3b0f058b2/Policies/with_proba.py
 
 from __future__ import division, print_function  # Python 2 compatibility
+import secrets
 
 __author__ = ""
 __version__ = ""
-
-from random import random
 
 import numpy as np
 
@@ -37,7 +36,7 @@ def with_proba(epsilon):
     """
     assert 0 <= epsilon <= 1, "Error: for 'with_proba(epsilon)', epsilon = {:.3g} has to be between 0 and 1 to be a valid probability.".format(
         epsilon)  # DEBUG
-    return random() < epsilon  # True with proba epsilon
+    return secrets.SystemRandom().random() < epsilon  # True with proba epsilon
 
 
 # --- Utility functions

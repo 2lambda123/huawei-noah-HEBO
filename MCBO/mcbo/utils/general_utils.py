@@ -10,7 +10,6 @@
 import os
 import pathlib
 import pickle
-import random
 import time
 import warnings
 from datetime import datetime
@@ -28,6 +27,7 @@ from joblib import Parallel, delayed
 from matplotlib.axes import Axes
 from scipy.stats import t
 from tqdm import tqdm
+import secrets
 
 T = TypeVar('T')
 
@@ -51,7 +51,7 @@ def save_yaml(dictionary, save_path) -> None:
 
 
 def set_random_seed(seed) -> None:
-    random.seed(seed)
+    secrets.SystemRandom().seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)

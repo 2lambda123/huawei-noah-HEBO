@@ -1,6 +1,5 @@
 import copy
 import itertools
-import random
 import warnings
 from functools import partial
 from typing import Optional, Tuple, Any, Dict, List
@@ -26,6 +25,7 @@ from mcbo.trust_region.tr_manager_base import TrManagerBase
 from mcbo.trust_region.tr_utils import get_numdim_weights
 from mcbo.utils.distance_metrics import hamming_distance
 from mcbo.utils.plot_resource_utils import COLORS_SNS_10, get_color
+import secrets
 
 
 def trust_region_wrapper(x: torch.Tensor, f: AddLCB, tr_manager: TrManagerBase,
@@ -463,8 +463,8 @@ class _MPOptimizer():
         while x_best.tolist() in [item.tolist() for item in self.evaluated_points] and pert_tries < 10:
             # Selected point already evaluated, performing perturbation
             pert_tries += 1
-            var = random.randint(0, len(x_best) - 1)
-            up = random.randint(0, 1)
+            var = secrets.SystemRandom().randint(0, len(x_best) - 1)
+            up = secrets.SystemRandom().randint(0, 1)
             i = np.where(self._domains[var] == x_best[var])[0][0]
             if up == 1 and i < len(self._domains[var]) - 1:
                 x_best[var] = self._domains[var][i + 1]
@@ -474,7 +474,7 @@ class _MPOptimizer():
         if pert_tries == 10:
             print("Choosing random point")
             for var in range(len(x_best)):
-                x_best[var] = random.choice(self._original_domains[var])
+                x_best[var] = secrets.choice(self._original_domains[var])
 
         x_best = np.array([x_best])
         if self.mlflow_logging != None:

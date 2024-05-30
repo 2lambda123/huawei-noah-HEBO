@@ -1,5 +1,4 @@
 import copy
-import random
 import warnings
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -19,6 +18,7 @@ from mcbo.models.gp import ExactGPModel
 from mcbo.models.gp.kernels import DecompositionKernel
 from mcbo.models.model_base import EnsembleModelBase
 from mcbo.search_space import SearchSpace
+import secrets
 
 
 class RandDecompositionGP(ExactGPModel):
@@ -232,8 +232,8 @@ class RandDecompositionGP(ExactGPModel):
         disjoint_set = DisjointSet()
         connections_made = 0
         while connections_made < min(size - 1, max(int(self.random_tree_size * size), 1)):
-            edge_in = random.randint(0, size - 1)
-            edge_out = random.randint(0, size - 1)
+            edge_in = secrets.SystemRandom().randint(0, size - 1)
+            edge_out = secrets.SystemRandom().randint(0, size - 1)
 
             if edge_in == edge_out or disjoint_set.connected(edge_out, edge_in):
                 continue
