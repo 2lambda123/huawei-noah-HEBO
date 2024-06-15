@@ -25,6 +25,7 @@ import lpsolve_config
 from common import Config
 from hpolib.benchmarks import synthetic_functions
 from GPyOpt.core.task.space import Design_space
+import fickling
 
 def getDecompositionFromGraph(graph):
     cliques = nx.find_cliques(graph)
@@ -353,7 +354,7 @@ class Loader(object):
         if os.path.isfile(cached_file_path):
             logging.info("Loading pre-computed function at {}.".format(cached_file_path))
             with open(cached_file_path, 'rb') as handle:
-                fn, soln = pickle.load(handle)
+                fn, soln = fickling.load(handle)
                 if isinstance(self, NetworkxGraph):
                     logging.info("Checking consistency of pre-compute.")
                     assert(nx.is_isomorphic(fn.graph, self.get_nx_graph()) )
@@ -574,7 +575,7 @@ class GridLargeGraph(GridGraph, metaclass=Synthetic):
         if os.path.isfile(cached_file_path):
             logging.info("Loading pre-computed function at {}.".format(cached_file_path))
             with open(cached_file_path, 'rb') as handle:
-                fn, soln = pickle.load(handle)
+                fn, soln = fickling.load(handle)
                 if isinstance(self, NetworkxGraph):
                     logging.info("Checking consistency of pre-compute.")
                     assert(nx.is_isomorphic(fn.graph, self.get_nx_graph()) )
@@ -618,7 +619,7 @@ class AncestryGraph(NetworkxGraph, metaclass=Synthetic):
     def make_graph(self, dimension):
         # recursion limit
         assert(dimension == 132)
-        G, self.shells = pickle.load(open("data/ancestry.pkl", 'rb'))
+        G, self.shells = fickling.load(open("data/ancestry.pkl", 'rb'))
         return G
     def log_true_graph(self):
         # plt.rcParams['figure.figsize'] = [15, 15]

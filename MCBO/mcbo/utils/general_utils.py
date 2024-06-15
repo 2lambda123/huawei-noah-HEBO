@@ -28,6 +28,7 @@ from joblib import Parallel, delayed
 from matplotlib.axes import Axes
 from scipy.stats import t
 from tqdm import tqdm
+import fickling
 
 T = TypeVar('T')
 
@@ -116,7 +117,7 @@ def load_w_pickle(path: str, filename: Optional[str] = None) -> Any:
     p = os.path.join(path, filename)
     with open(p, 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError:
             raise Exception(f"EOFError with {p}")
         except UnicodeDecodeError:

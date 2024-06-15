@@ -9,7 +9,6 @@
 
 import json
 import os
-import pickle as pkl
 
 import botorch
 import numpy as np
@@ -21,6 +20,8 @@ from gpytorch import ExactMarginalLogLikelihood
 
 from pathlib import Path
 import os, sys
+import fickling
+
 ROOT = str(Path(os.path.realpath(__file__)).parent.parent)
 sys.path.insert(0, ROOT)
 
@@ -52,7 +53,7 @@ if __name__ == '__main__':
 
         skipped, skipped_n = [], []
         for dataset in train_datasets:
-            data = pkl.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
+            data = fickling.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
             Y = data['accs']
             stdY = (Y - Y.mean()) / Y.std()
 
@@ -73,7 +74,7 @@ if __name__ == '__main__':
         for dataset in train_datasets:
             gp_name = dataset.split('.pkl')[0] + f'_gp.pt'
             if not os.path.exists(os.path.join(hpob_data_root, 'gps', gp_name)):
-                data = pkl.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
+                data = fickling.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
                 Y = data['accs']
                 X = data['domain']  # X is already normalised across all datasets (train, val, test)
 
@@ -133,6 +134,6 @@ if __name__ == '__main__':
                 torch.cuda.empty_cache()
 
             else:
-                data = pkl.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
+                data = fickling.load(open(os.path.join(hpob_data_root, dataset), 'rb'))
                 X = data['domain']
                 print(f'{dataset} GP already fit and saved: {X.shape[0]} points in {X.shape[1]} dims.')

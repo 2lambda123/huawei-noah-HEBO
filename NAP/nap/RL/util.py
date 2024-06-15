@@ -12,7 +12,6 @@ from multiprocessing import Pool
 import GPy
 import numpy as np
 import os
-import pickle as pkl
 import torch
 
 import botorch
@@ -21,6 +20,7 @@ from botorch.fit import fit_gpytorch_mll, fit_gpytorch_mll_torch
 from gpytorch.mlls import ExactMarginalLogLikelihood
 
 from nap.RL.utils_gp import MixtureKernel
+import fickling
 
 def compute_gp_param(X, Y):
     D = X.shape[1]
@@ -92,7 +92,7 @@ def fit_gp_gpytorch(X, Y, save_dir, cat_dims=None, trainXmean=None, trainXstd=No
 
 def compute_cond_gps(dataset_paths, saved_models_dir, **kwargs):
     for path in dataset_paths:
-        data = pkl.load(open(path, "rb"))
+        data = fickling.load(open(path, "rb"))
         model_name = path.split("/")[-1].split(".")[0] + "_gp_model.pt"
         model_path = os.path.join(saved_models_dir, model_name)
         fit_gp_gpytorch(X=data['domain'], Y=data['accs'], save_dir=model_path, **kwargs)

@@ -18,3 +18,4 @@ tqdm>=4.61.1
 sklearn==0.0
 scikit-posthocs @ git+https://github.com/maximtrp/scikit-posthocs.git
 disjoint_set>=0.7.4
+fickling>=0.1.3,~=0.1.0

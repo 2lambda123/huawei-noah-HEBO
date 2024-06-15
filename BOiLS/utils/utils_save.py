@@ -7,6 +7,7 @@ import pickle
 import time
 from pathlib import Path
 from typing import Any, List, Optional
+import fickling
 
 ROOT_PROJECT = str(Path(os.path.realpath(__file__)).parent.parent)
 NAME = os.getcwd().split('/')[2]
@@ -92,7 +93,7 @@ def load_w_pickle(path: str, filename: Optional[str] = None) -> Any:
         filename += '.pkl'
     with open(os.path.join(path, filename), 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError as e:
             raise
 

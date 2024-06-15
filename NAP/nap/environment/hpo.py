@@ -8,13 +8,13 @@
 # PARTICULAR PURPOSE. See the MIT License for more details.
 
 
-import pickle
 import os
 
 import numpy as np
 
 from nap.RL.util import print_best_gp_params
 from nap.environment.objectives import get_HPO_domain
+import fickling
 
 
 def get_hpo_specs(hpo_type, root_dir=None):
@@ -61,7 +61,7 @@ def get_hpo_specs(hpo_type, root_dir=None):
         valid_datasets = [path_func(hpo_type, i) for i in limits_valid[hpo_type]]
         test_datasets = [path_func(hpo_type, i) for i in limits_test[hpo_type]]
 
-    loaded_datasets = [pickle.load(open(dataset, "rb")) for dataset in train_datasets]
+    loaded_datasets = [fickling.load(open(dataset, "rb")) for dataset in train_datasets]
     all_X = np.concatenate([get_HPO_domain(data=dataset) for dataset in loaded_datasets], 0)
 
     # # uncomment below to get GP params

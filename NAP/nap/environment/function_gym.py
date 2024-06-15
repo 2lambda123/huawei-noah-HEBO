@@ -33,11 +33,12 @@ from nap.environment.objectives import *
 from nap.policies.policies import MES
 from nap.RL.utils_gp import MixtureKernel, TransformedCategorical
 
-import pickle,random
+import random
 import os
 import matplotlib.pyplot as plt
 import torch
 import copy
+import fickling
 
 class MetaBOEnv(gym.Env):
     def __init__(self, **kwargs):
@@ -419,7 +420,7 @@ class MetaBOEnv(gym.Env):
             if self.dataset_counter >= len(self.kwargs["f_opts"]["data"]):
                 self.dataset_counter = 0
 
-            self.pkl_data = pickle.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter],"rb"))
+            self.pkl_data = fickling.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter],"rb"))
 
             if self.kwargs["f_opts"].get("shuffle_and_cutoff", False):
                 # shuffle and truncate to get always same size datasets

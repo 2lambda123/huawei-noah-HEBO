@@ -9,12 +9,12 @@
 
 import os
 import multiprocessing as mp
-import pickle
 
 import numpy as np
 
 from nap.environment.hpo import get_hpo_specs, get_cond_hpo_specs
 from nap.policies.fsbo import FSBO
+import fickling
 
 if __name__ == '__main__':
     mp.set_start_method('spawn')
@@ -61,11 +61,11 @@ if __name__ == '__main__':
     # format data for FSBO
     train_data = {str(i): dict(X=data['domain'].tolist(), y=data["accs"][:, None].tolist())
                   for i, path in enumerate(train_datasets)
-                  for data in [pickle.load(open(path, "rb"))]}
+                  for data in [fickling.load(open(path, "rb"))]}
 
     valid_data = {str(i): dict(X=data['domain'].tolist(), y=data["accs"][:, None].tolist())
                   for i, path in enumerate(valid_datasets)
-                  for data in [pickle.load(open(path, "rb"))]}
+                  for data in [fickling.load(open(path, "rb"))]}
 
     # FSBO training
     fsbo_model = FSBO(train_data=train_data, valid_data=valid_data, checkpoint_path=logpath)

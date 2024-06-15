@@ -5,8 +5,8 @@ import numpy as np
 from weighted_retraining.weighted_retraining.chem.jtnn.jtnn_enc import JTNNEncoder
 from weighted_retraining.weighted_retraining.chem.jtnn.mpn import MPN
 from weighted_retraining.weighted_retraining.chem.jtnn.jtmpn import JTMPN
-import pickle
 import os, random
+import fickling
 
 
 class PairTreeFolder(object):
@@ -35,7 +35,7 @@ class PairTreeFolder(object):
         for fn in self.data_files:
             fn = os.path.join(self.data_folder, fn)
             with open(fn) as f:
-                data = pickle.load(f)
+                data = fickling.load(f)
 
             if self.shuffle:
                 random.shuffle(data)  # shuffle data before batch
@@ -126,7 +126,7 @@ class MolTreeFolder(IterableDataset):
         fn = os.path.join(self.data_folder, fn)
         print(f"loading {fn}")
         with open(fn, "rb") as f:
-            data = pickle.load(f)
+            data = fickling.load(f)
         return data
 
     def __iter__(self):

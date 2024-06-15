@@ -3,6 +3,7 @@ from typing import Any, Optional
 
 import numpy as np
 import os
+import fickling
 
 
 def spearman(pred, target) -> float:
@@ -60,7 +61,7 @@ def load_w_pickle(path: str, filename: Optional[str] = None) -> Any:
         filename += '.pkl'
     with open(os.path.join(path, filename), 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError as e:
             print(path, filename)
             raise

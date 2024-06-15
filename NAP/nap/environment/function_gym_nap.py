@@ -11,13 +11,13 @@
 import gym
 import gym.spaces
 import pandas as pd
-import pickle
 import torch
 import copy
 
 from botorch.models import SingleTaskGP, SingleTaskVariationalGP
 from nap.environment.util import scale_from_unit_square_to_domain, get_cube_around
 from nap.environment.objectives import *
+import fickling
 
 class NAPEnv(gym.Env):
     def __init__(self, **kwargs):
@@ -390,14 +390,14 @@ class NAPEnv(gym.Env):
             if self.dataset_counter >= len(self.kwargs["f_opts"]["data"]):
                 self.dataset_counter = 0
 
-            self.pkl_data = pickle.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter], "rb"))
+            self.pkl_data = fickling.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter], "rb"))
 
             if self.kwargs["f_opts"].get("shuffle_and_cutoff", False):
                 while len(self.pkl_data["accs"]) < self.kwargs['cardinality_domain']:
                     print(
                         f' sample more datasets -> len({self.kwargs["f_opts"]["data"][self.dataset_counter].split("/")[-1]})={len(self.pkl_data["accs"])}')
                     self.dataset_counter = self.rng.randint(len(self.kwargs["f_opts"]["data"]))
-                    additional_data = pickle.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter], "rb"))
+                    additional_data = fickling.load(open(self.kwargs["f_opts"]["data"][self.dataset_counter], "rb"))
                     self.pkl_data["domain"] = np.concatenate((self.pkl_data["domain"], additional_data["domain"]))
                     self.pkl_data["accs"] = np.concatenate((self.pkl_data["accs"], additional_data["accs"]))
 
