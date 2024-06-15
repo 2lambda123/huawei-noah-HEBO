@@ -14,6 +14,7 @@ import os
 import pickle
 from pathlib import Path
 from typing import Any
+import fickling
 
 ROOT_PROJECT = str(Path(os.path.realpath(__file__)).parent.parent)
 
@@ -55,7 +56,7 @@ def load_w_pickle(path: str, filename: str) -> Any:
         filename += '.pkl'
     with open(os.path.join(path, filename), 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError as e:
             print(path, filename)
             raise
