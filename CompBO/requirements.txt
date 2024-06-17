@@ -68,8 +68,8 @@ pyrsistent==0.17.3
 python-dateutil==2.8.1
 pytz==2020.4
 pyzmq==19.0.2
-requests==2.31.0
-scikit-learn==1.0.1
+requests==2.32.2
+scikit-learn==1.5.0
 scipy==1.11.1
 Send2Trash==1.5.0
 serpent==1.30.2
@@ -81,11 +81,11 @@ threadpoolctl==2.1.0
 torch==1.13.1
 torchaudio==0.7.0
 torchvision==0.8.1+cu101
-tornado==6.3.3
+tornado==6.4.1
 tqdm==4.66.3
 traitlets==5.0.5
 typing-extensions==3.7.4.3
-urllib3==1.26.18
+urllib3==1.26.19
 wcwidth==0.2.5
 webencodings==0.5.1
 zipp==3.4.0
