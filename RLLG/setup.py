@@ -8,7 +8,7 @@ setup(author='Paul Daoudi',
       version='0.1.0',
       packages=find_packages(include=['my_package', 'my_package.*']),
       install_requires=[
-            'setuptools==65.5.1',
+            'setuptools==70.0.0',
             'wheel==0.38.0',
             'numpy==1.26.4',
             'torch==1.13.1',
