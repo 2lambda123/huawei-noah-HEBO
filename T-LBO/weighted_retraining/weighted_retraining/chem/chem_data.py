@@ -1,6 +1,4 @@
 """ Code for chem datasets """
-
-import pickle
 from typing import Any, Optional, Dict, List, Iterable
 
 import numpy as np
@@ -17,6 +15,7 @@ from weighted_retraining.weighted_retraining.chem.chem_utils import standardize_
 from weighted_retraining.weighted_retraining.chem.jtnn import MolTreeFolder, MolTreeDataset, Vocab, MolTree
 from weighted_retraining.weighted_retraining.chem.jtnn.datautils import TargetMolTreeDataset
 from weighted_retraining.weighted_retraining.utils import print_flush
+import fickling
 
 NUM_WORKERS = 4
 
@@ -238,7 +237,7 @@ class WeightedJTNNDataset(pl.LightningDataModule):
             property_dict = dict()
         else:
             with open(self.property_file, "rb") as f:
-                property_dict = pickle.load(f)
+                property_dict = fickling.load(f)
 
         self.train_dataset = WeightedMolTreeFolder(
             self.property,

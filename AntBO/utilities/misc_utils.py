@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from inspect import signature
 from typing import Optional, Callable, Any, Dict
+import fickling
 
 
 def time_formatter(t: float, show_ms: bool = False) -> str:
@@ -58,7 +59,7 @@ def load_w_pickle(path: str, filename: Optional[str] = None) -> Any:
         filename += '.pkl'
     with open(os.path.join(path, filename), 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError as e:
             print(path, filename)
             raise

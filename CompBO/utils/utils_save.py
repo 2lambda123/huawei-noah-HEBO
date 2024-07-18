@@ -4,6 +4,7 @@ from typing import Any
 import json
 
 import numpy as np
+import fickling
 
 
 def save_w_pickle(obj: Any, path: str, filename: str) -> None:
@@ -20,7 +21,7 @@ def load_w_pickle(path: str, filename: str) -> Any:
         filename += '.pkl'
     with open(os.path.join(path, filename), 'rb') as f:
         try:
-            return pickle.load(f)
+            return fickling.load(f)
         except EOFError as e:
             print(path, filename)
             raise
