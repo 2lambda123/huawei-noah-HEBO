@@ -116,7 +116,7 @@ tensorflow-estimator==1.15.1
 termcolor==1.1.0
 threadpoolctl==2.1.0
 tokenizers==0.10.3
-torch==1.13.1
+torch==2.2.0
 torchaudio==0.7.2
 torchmetrics==0.2.0
 torchvision==0.8.2+cu110
